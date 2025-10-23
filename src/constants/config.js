@@ -18,4 +18,8 @@ config({
 export const envConfig = {
   port: process.env.PORT || 4000,
   host: process.env.HOST,
+  // Accept either uppercase or lowercase env var names (some .env files use lowercase)
+  dbUsername: process.env.DB_USERNAME || process.env.dbUsername,
+  dbPassword: process.env.DB_PASSWORD || process.env.dbPassword,
+  dbName: process.env.DB_NAME || process.env.dbName,
 };
