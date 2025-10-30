@@ -28,6 +28,9 @@ class DatabaseService {
       throw error;
     }
   }
+  get Shirts(){
+    return this.db.collection("Shirts");
+  }
 }
 
 const databaseService = new DatabaseService();
