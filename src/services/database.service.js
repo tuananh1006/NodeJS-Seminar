@@ -28,7 +28,49 @@ class DatabaseService {
       throw error;
     }
   }
+  async findUserByEmail(email) {
+    return await this.users.findOne({ email });
+  }
+
+  async findUserById(id) {
+    return await this.users.findOne({ _id: id });
+  }
+
+  async createUser(userData) {
+    const result = await this.users.insertOne(userData);
+    return { id: result.insertedId, ...userData };
+  }
+
+  async updatePassword(email, hashedPassword) {
+    return await this.users.updateOne(
+      { email },
+      { $set: { password: hashedPassword } }
+    );
+  }
+
+  async getAllUsers() {
+    return await this.users.find({}).toArray();
+  }
+
+  async saveResetToken(email, token) {
+    return await this.users.updateOne(
+      { email },
+      { $set: { resetToken: token } }
+    );
+  }
+
+  async findByResetToken(token) {
+    return await this.users.findOne({ resetToken: token });
+  }
+
+  async clearResetToken(email) {
+    return await this.users.updateOne(
+      { email },
+      { $unset: { resetToken: "" } }
+    );
+  }
 }
+   
 
 const databaseService = new DatabaseService();
 export default databaseService;
